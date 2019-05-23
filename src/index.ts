@@ -6,6 +6,10 @@ import {
   PokemonSpeciesController,
 } from './controller/PokemonSpeciesController';
 import { TypeController } from './controller/TypeController';
+import * as express from 'express';
+const sentry = require('@sentry/node');
+
+sentry.init({ dsn: 'https://8e20f4e44b6c42b8a7aa604610f504b4@sentry.io/1466540' });
 
 createConnection().then(async (connection) => {
 
@@ -13,6 +17,20 @@ createConnection().then(async (connection) => {
   const app = createExpressServer({
     controllers: [PokemonSpeciesController, TypeController],
   });
+
+  app.use(sentry.Handlers.requestHandler() as express.RequestHandler);
+  app.get('/', (req, res) => {
+    throw new Error('Broke!');
+  });
+  app.use(sentry.Handlers.errorHandler() as express.ErrorRequestHandler);
+
+  app.use((err, req, res, next) => {
+    // The error id is attached to `res.sentry` to be returned
+    // and optionally displayed to the user for support.
+    res.statusCode = 500;
+    res.end(`${res.sentry}\n`);
+  });
+
   app.use(bodyParser.json());
 
   // setup express app here

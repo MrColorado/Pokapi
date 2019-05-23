@@ -54,6 +54,10 @@ jobs:
       - image: circleci/postgres:alpine
         environment:
           POSTGRES_DB: test
+          COVERALLS_REPO_TOKEN: DPyCMcA68lYInoY8o8aV4eJXB6z8YpG7m
+    notify:
+      webhooks:
+        - url: https://coveralls.io/webhook?repo_token=<<DPyCMcA68lYInoY8o8aV4eJXB6z8YpG7m>>
     steps:
       - checkout
       - restore_cache: # Get cache based on node_modules
@@ -67,7 +71,9 @@ jobs:
             - ./node_modules
       - run:
           name: test
-          command: yarn test
+          command: yarn coverage --collectCoverage=true
+      - store_artifacts:
+          path: coverage
 
 workflows:
   version: 2

@@ -1,0 +1,78 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/app
+
+jobs:
+  build:
+    <<: *defaults
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          name: get-yarn
+          command: sudo npm install -g yarn
+      - restore_cache: # Get cache based on node_modules
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-packages
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: build
+          command: yarn build
+
+  lint:
+    <<: *defaults
+    docker:
+      - image: circleci/node
+    requires:
+      - build
+    steps:
+      - checkout
+      - restore_cache: # Get cache based on node_modules
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-packages
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: lint
+          command: yarn lint
+
+  test:
+    <<: *defaults
+    docker:
+      - image: circleci/node
+      - image: circleci/postgres:alpine
+        environment:
+          POSTGRES_DB: test
+    steps:
+      - checkout
+      - restore_cache: # Get cache based on node_modules
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-packages
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: test
+          command: yarn test
+
+workflows:
+  version: 2
+  lint-and-test:
+    jobs:
+      - build
+      - test
+      - lint

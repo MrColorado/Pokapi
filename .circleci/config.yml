@@ -68,6 +68,9 @@ jobs:
       - run:
           name: test
           command: yarn test
+      - run:
+          name: publish coverage
+          command: yarn coverage
 
 workflows:
   version: 2

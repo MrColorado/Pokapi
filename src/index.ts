@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as bodyParser from 'body-parser';
 import { createExpressServer } from 'routing-controllers';
-import { UserController } from './controller/UserController';
 import {
   PokemonSpeciesController,
 } from './controller/PokemonSpeciesController';
@@ -12,7 +11,7 @@ createConnection().then(async (connection) => {
 
   // create express app
   const app = createExpressServer({
-    controllers: [UserController, PokemonSpeciesController, TypeController],
+    controllers: [PokemonSpeciesController, TypeController],
   });
   app.use(bodyParser.json());
 

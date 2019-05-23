@@ -3,10 +3,10 @@ import {
   PrimaryColumn,
   OneToMany,
 } from 'typeorm';
-import PokemonSpecies from './PokemonSpecies';
+import { PokemonSpecies } from './PokemonSpecies';
 
 @Entity()
-export default class Type {
+export class Type {
   @PrimaryColumn()
   name: string;
 

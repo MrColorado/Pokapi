@@ -1,6 +1,6 @@
 {
    "compilerOptions": {
-      "lib": ["es2017"],
+      "lib": ["es2017", "dom", "es6"],
       "target": "es2017",
       "module": "commonjs",
       "moduleResolution": "node",
@@ -8,6 +8,13 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "sourceMap": true,
-      "strictNullChecks": true
+      "strictNullChecks": true,
+      "baseUrl": "src",
+      "allowSyntheticDefaultImports": true,
+      "paths": {
+         "@entities/*": ["entity/*"],
+         "@utils/*": ["utils/*"],
+         "config": ["config.ts"]
+      }
    }
 }

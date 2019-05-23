@@ -1,6 +1,6 @@
 import { Get, JsonController, Param } from 'routing-controllers';
 import { getRepository } from 'typeorm';
-import Type from '../entity/Type';
+import { Type } from '../entities/Type';
 
 @JsonController()
 export class TypeController {

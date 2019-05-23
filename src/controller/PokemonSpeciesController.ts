@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { Get, JsonController , Param } from 'routing-controllers';
-import PokemonSpecies from '../entity/PokemonSpecies';
+import { PokemonSpecies } from '../entities/PokemonSpecies';
 
 @JsonController()
 export class PokemonSpeciesController {

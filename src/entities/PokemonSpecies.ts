@@ -4,10 +4,10 @@ import {
   PrimaryColumn,
   ManyToOne,
 } from 'typeorm';
-import Type from './Type';
+import { Type } from './Type';
 
 @Entity()
-export default class PokemonSpecies {
+export class PokemonSpecies {
   @PrimaryColumn()
   id: number;
 

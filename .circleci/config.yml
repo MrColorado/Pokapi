@@ -72,6 +72,23 @@ jobs:
           name: publish coverage
           command: yarn coverage
 
+  standard:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache: # Get cache based on node_modules
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-packages
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: standard
+          command: yarn standard
+
 workflows:
   version: 2
   lint-and-test:

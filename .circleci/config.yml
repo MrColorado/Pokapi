@@ -74,8 +74,6 @@ jobs:
 
   standard:
     <<: *defaults
-    docker:
-      - image: circleci/node
     steps:
       - checkout
       - restore_cache: # Get cache based on node_modules

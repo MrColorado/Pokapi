@@ -98,3 +98,4 @@ workflows:
       - build
       - test
       - lint
+      - standard

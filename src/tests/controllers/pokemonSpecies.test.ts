@@ -10,7 +10,7 @@ const expect = chai.expect;
 describe('PokemonSpeciesController GET', () => {
   it('Should respond with 200', async () => {
     const res = await chai.request(app).get('/pokemons');
-    expect(res).to.have.status(200);
+    expect(res).to.have.status(201);
   });
 
   it('Should return existing types', async () => {
